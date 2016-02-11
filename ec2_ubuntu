@@ -1,13 +1,14 @@
-#!/usr/bin/env bash -e
+#!/usr/bin/env bash
 
-BUILD_DIR=build
+BUILD_DIR=bootstrap
+DOTFILES=bsmith89/dotfiles
 
 sudo apt-get update
 mkdir ${BUILD_DIR}/
-sudo apt-get install git make stow python-dev cmake build-essentials
-git https://github.com/bsmith89/dotfiles ${BUILD_DIR}/dotfiles
+sudo apt-get install git make stow python-dev cmake build-essential
+git clone https://github.com/${DOTFILES} ${BUILD_DIR}/dotfiles
 cd ${BUILD_DIR}/dotfiles
 wget -O home/.vim/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-rm $HOME/.bashrc $HOME/.profile $HOME/.bash_logout
+rm -f $HOME/.bashrc $HOME/.profile $HOME/.bash_logout
 make install PLATFORM=aws
 vim +PlugInstall +qall
